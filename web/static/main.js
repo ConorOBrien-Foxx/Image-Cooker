@@ -1,22 +1,25 @@
-const makeCard = (title, content, ...actions) => {
+const makeImageCard = (title, image, ...actions) => {
     const wrapper = document.createElement("div");
     wrapper.innerHTML = `
-        <div class="card center-align">
-            <div class="card-content">
+        <div class="card">
+            <div class="card-image">
+            
                 <span class="card-title"></span>
             </div>
+            <!-- <div class="card-content">
+            </div> -->
         </div>
     `;
     const card = wrapper.firstElementChild;
     card.querySelector(".card-title").textContent = title;
     // todo: allow content to be array?
-    card.querySelector(".card-content").appendChild(content);
+    card.querySelector(".card-image").prepend(image);
     if(actions) {
         const cardActions = document.createElement("div");
         cardActions.classList.add("card-action");
         for(let action of actions) {
             const button = document.createElement("button");
-            button.className = "btn waves-effect waves-light";
+            button.className = "tight btn waves-effect waves-light";
             button.textContent = action;
             cardActions.appendChild(button);
         }
@@ -26,8 +29,8 @@ const makeCard = (title, content, ...actions) => {
 };
 
 const PNG_PREFIX = "data:image/png;base64,";
-const SET_LEFT_LABEL = "Set Left";
-const SET_RIGHT_LABEL = "Set Right";
+const SET_LEFT_LABEL = "Left";
+const SET_RIGHT_LABEL = "Right";
 const AppState = {
     imageBase64: null,
     gallery: null,
@@ -74,7 +77,8 @@ const AppState = {
         this.gallery.forEach((src, idx) => {
             const newImgElement = document.createElement("img");
             newImgElement.src = src;
-            const card = makeCard(`Version ${idx}`, newImgElement, SET_LEFT_LABEL, SET_RIGHT_LABEL);
+            // const card = makeImageCard(`Version ${idx}`, newImgElement, SET_LEFT_LABEL, SET_RIGHT_LABEL);
+            const card = makeImageCard("", newImgElement, SET_LEFT_LABEL, SET_RIGHT_LABEL);
             galleryContainer.appendChild(card);
         });
     },
@@ -149,6 +153,7 @@ window.addEventListener("load", function () {
     AppState.init();
     
     const imageInput = document.getElementById("image-input");
+    const code = document.getElementById("code");
     const updateImage = () => {
         const file = imageInput.files[0];
 
@@ -163,7 +168,8 @@ window.addEventListener("load", function () {
                         "Content-Type": "application/x-www-form-urlencoded",
                     },
                     body: new URLSearchParams({
-                        "base64_string": AppState.base64NoPrefix(),
+                        startImage: AppState.base64NoPrefix(),
+                        code: code.value,
                     }),
                 })
                 .then(response => response.json())
@@ -182,5 +188,6 @@ window.addEventListener("load", function () {
         }
     };
     imageInput.addEventListener("change", updateImage);
+    code.addEventListener("change", updateImage);
     updateImage();
 });

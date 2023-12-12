@@ -44,21 +44,32 @@
     </header>
     <main>
         <div class="container">
-            <form action="#">
-            <div class="file-field input-field">
-                <div class="btn">
-                    <span>File</span>
-                    <input id="image-input" type="file">
-                </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text">
+            <form action="#" class="col s12">
+                <!-- <div class="row"> -->
+                    <div class="input-field col s12">
+                        <textarea id="code" class="materialize-textarea"></textarea>
+                        <label for="code">Code</label>
                     </div>
-                </div>
+                <!-- </div> -->
+                <!-- <div class="row"> -->
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Upload Image</span>
+                            <input id="image-input" type="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                <!-- </div> -->
             </form>
             <!-- <button class="btn waves-effect waves-light" id="getDataBtn">Get Data</button> -->
+            <!-- <h4>Result</h4> -->
             <div id="result">
+                <h5>History</h5>
                 <div id="galleryContainer">
                 </div>
+                <h5>Compare</h5>
                 <img-comparison-slider>
                     <img slot="first" id="beforeImage" />
                     <img slot="second" id="afterImage" />

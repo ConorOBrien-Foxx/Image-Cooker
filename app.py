@@ -18,14 +18,13 @@ def index():
 def test():
     try:
         # Get the base64 string from the form data
-        base64_string = request.form.get("base64_string")
-        print(base64_string[:26], base64_string[-26:])
-        binary_data = base64.b64decode(base64_string)
+        startImageBase64 = request.form.get("startImage")
+        code = request.form.get("code")
+        binary_data = base64.b64decode(startImageBase64)
         image_stream = BytesIO(binary_data)
         image = Image.open(image_stream)
         cooker = ImageCooker(image)
-        cooker.down_upscale(0.1)
-        cooker.jpeg_compress(0)
+        cooker.run(code)
         return cooker.export_base64()
     except Exception as e:
         raise e

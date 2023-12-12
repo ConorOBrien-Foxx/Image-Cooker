@@ -10,6 +10,11 @@ def image_to_base64(img):
     img_str = base64.b64encode(buffered.getvalue())
     return img_str.decode("utf-8")
 
+CommandToInstruction = {
+    "jpeg": "jpeg_compress",
+    "scale": "down_upscale",
+}
+
 @dataclass
 class ImageCooker: 
     img: Image
@@ -44,6 +49,30 @@ class ImageCooker:
     
     def show(self, *args):
         self.img.show()
+    
+    def parse_params(self, params):
+        return [
+            float(param) if "." in param else int(param)
+            if param[0].isdigit() or param[0] == "." and param[1].isDigit()
+            else param
+            for param in params
+        ]
+    
+    def run_instruction(self, line):
+        if not line:
+            return
+        instruction, *params = line.split()
+        if instruction not in CommandToInstruction:
+            print("Unknown instruction:", instruction)
+            # TODO: report error to user
+            return
+        params = self.parse_params(params)
+        print(instruction, params)
+        getattr(self, CommandToInstruction[instruction])(*params)
+    
+    def run(self, code):
+        for line in code.split("\n"):
+            self.run_instruction(line)
     
     def export_base64(self):
         return {
