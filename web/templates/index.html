@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Image Cooker</title>
+    <!-- initial theme handling -->
+    <script>
+        const theme = localStorage.getItem("theme");
+        if (theme) {
+            document.documentElement.setAttribute("theme", theme);
+        }
+    </script>
+    <link rel="stylesheet" href="root.css">
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- materialize -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- our script -->
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <!-- slider comparisons -->
+    <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/index.js"
+    ></script>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/styles.css"
+    />
+</head>
+<body>
+    <header>
+        <nav class="primary">
+            <div class="nav-wrapper">
+                <a href="#!" class="brand-logo center"><i class="material-icons" style="font-size: 1.4em">outdoor_grill</i>Image Cooker</a>
+                <ul class="right">
+                    <li><a id="theme-switch" href="#" class="" title="Switch to dark mode"><i class="material-icons">dark_mode</i></a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <form action="#">
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>File</span>
+                    <input id="image-input" type="file">
+                </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                </div>
+            </form>
+            <!-- <button class="btn waves-effect waves-light" id="getDataBtn">Get Data</button> -->
+            <div id="result">
+                <div id="galleryContainer">
+                </div>
+                <img-comparison-slider>
+                    <img slot="first" id="beforeImage" />
+                    <img slot="second" id="afterImage" />
+                </img-comparison-slider>
+            </div>
+        </div>
+
+    </main>
+</body>
+</html>

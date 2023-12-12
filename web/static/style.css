@@ -1,0 +1,32 @@
+/* for some reason this is not done by default */
+body {
+    background-color: var(--background-color);
+    color: var(--font-color-main);
+}
+
+input {
+    color: var(--font-color-main);
+}
+
+nav {
+    background-color: var(--navbar-color);
+}
+
+#galleryContainer {
+    display: flex;
+}
+#galleryContainer > * {
+    margin: 10px;
+}
+#galleryContainer > * img {
+    max-width: 250px;
+    max-height: 150px;
+}
+
+.card {
+    background-color: var(--surface-color);
+}
+.card-action {
+    display: flex;
+    justify-content: space-evenly;
+}
