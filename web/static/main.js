@@ -45,8 +45,8 @@ const PNG_PREFIX = "data:image/png;base64,";
 const AppState = {
     imageBase64: null,
     gallery: null,
-    left: null,
-    right: null,
+    left: 0,
+    right: -1,
     base64NoPrefix() {
         return this.imageBase64.replace(/^data:image\/.+;base64,/, "");
     },
@@ -68,8 +68,23 @@ const AppState = {
             if(target.classList.contains("set-right")) {
                 this.setRight(myIndex);
             }
+            this.updateFocusSets();
             this.updateDisplayCompare();
         });
+        this.updateFocusSets();
+    },
+    updateFocusSets() {
+        const galleryContainer = document.getElementById("galleryContainer");
+        const cards = [...galleryContainer.querySelectorAll(".card")];
+        if(!cards) {
+            return;
+        }
+        
+        for(let button of galleryContainer.querySelectorAll(".set-left, .set-right")) {
+            button.classList.remove("secondary");
+        }
+        cards.at(this.left)?.querySelector("button:first-child").classList.add("secondary");
+        cards.at(this.right)?.querySelector("button:last-child").classList.add("secondary");
     },
     setLeft(idx) {
         return this.left = idx;
@@ -90,14 +105,15 @@ const AppState = {
             const newImgElement = document.createElement("img");
             newImgElement.src = src;
             const card = makeImageCard("", newImgElement, {
-                content: materialIconElement("arrow_circle_left"),
+                content: materialIconElement("arrow_back_ios_new"),
                 className: "set-left",
             }, {
-                content: materialIconElement("arrow_circle_right"),
+                content: materialIconElement("arrow_forward_ios"),
                 className: "set-right",
             });
             galleryContainer.appendChild(card);
         });
+        this.updateFocusSets();
     },
     updateDisplayCompare() {
         document.getElementById("beforeImage").src = this.gallery.at(this.left);

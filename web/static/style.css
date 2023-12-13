@@ -50,6 +50,19 @@ nav {
     border-bottom-right-radius: 5px;
 }
 
+.btn {
+    background-color: var(--button-primary-color);
+}
+.btn:hover {
+    background-color: var(--button-primary-color-hover);
+}
+
+.btn.secondary {
+    background-color: var(--button-secondary-color);
+}
+.btn.secondary:hover {
+    background-color: var(--button-secondary-color-hover);
+}
 
 img-comparison-slider img {
     max-width: 100%;
