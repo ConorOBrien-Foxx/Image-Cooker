@@ -207,10 +207,10 @@ window.addEventListener("load", function () {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    AppState.setGallery(data);
-                    AppState.updateGalleryDisplay();
                     AppState.setLeft(0);
                     AppState.setRight(-1);
+                    AppState.setGallery(data);
+                    AppState.updateGalleryDisplay();
                     AppState.updateDisplayCompare();
                 })
                 .catch(error => {

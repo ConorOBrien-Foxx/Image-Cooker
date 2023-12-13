@@ -23,7 +23,7 @@ def test():
         binary_data = base64.b64decode(startImageBase64)
         image_stream = BytesIO(binary_data)
         image = Image.open(image_stream)
-        cooker = ImageCooker(image)
+        cooker = ImageCooker(image, seed=startImageBase64)
         cooker.run(code)
         return cooker.export_base64()
     except Exception as e:

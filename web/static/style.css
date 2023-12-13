@@ -21,7 +21,8 @@ nav {
 
 #galleryContainer {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
+    overflow: auto;
 }
 #galleryContainer > * {
     margin: 3px;
