@@ -3,7 +3,7 @@ const makeImageCard = (title, image, ...actions) => {
     wrapper.innerHTML = `
         <div class="card">
             <div class="card-image">
-            
+                <!-- img goes here -->
                 <span class="card-title"></span>
             </div>
             <!-- <div class="card-content">
@@ -18,9 +18,15 @@ const makeImageCard = (title, image, ...actions) => {
         const cardActions = document.createElement("div");
         cardActions.classList.add("card-action");
         for(let action of actions) {
+            const { className, text, content } = action;
             const button = document.createElement("button");
-            button.className = "tight btn waves-effect waves-light";
-            button.textContent = action;
+            button.className = `tight btn waves-effect waves-light ${className}`;
+            if(text) {
+                button.textContent = text;
+            }
+            if(content) {
+                button.appendChild(content);
+            }
             cardActions.appendChild(button);
         }
         card.appendChild(cardActions);
@@ -28,9 +34,14 @@ const makeImageCard = (title, image, ...actions) => {
     return card;
 };
 
+const materialIconElement = (name, tag="i") => {
+    const element = document.createElement(tag);
+    element.className = `material-icons-outlined`;
+    element.textContent = name;
+    return element;
+};
+
 const PNG_PREFIX = "data:image/png;base64,";
-const SET_LEFT_LABEL = "Left";
-const SET_RIGHT_LABEL = "Right";
 const AppState = {
     imageBase64: null,
     gallery: null,
@@ -42,18 +53,19 @@ const AppState = {
     init() {
         const galleryContainer = document.getElementById("galleryContainer");
         galleryContainer.addEventListener("click", ev => {
-            const { target } = ev;
+            let { target } = ev;
             if(target.tagName !== "BUTTON") {
-                return;
+                target = target.closest("button");
+                if(target?.tagName !== "BUTTON") {
+                    return;
+                }
             }
             const myCard = ev.target.closest(".card");
             const myIndex = [...myCard.parentElement.children].indexOf(myCard);
-            if(target.textContent.includes(SET_LEFT_LABEL)) {
-                console.log("setting left", myIndex);
+            if(target.classList.contains("set-left")) {
                 this.setLeft(myIndex);
             }
-            if(target.textContent.includes(SET_RIGHT_LABEL)) {
-                console.log("setting right", myIndex);
+            if(target.classList.contains("set-right")) {
                 this.setRight(myIndex);
             }
             this.updateDisplayCompare();
@@ -77,8 +89,13 @@ const AppState = {
         this.gallery.forEach((src, idx) => {
             const newImgElement = document.createElement("img");
             newImgElement.src = src;
-            // const card = makeImageCard(`Version ${idx}`, newImgElement, SET_LEFT_LABEL, SET_RIGHT_LABEL);
-            const card = makeImageCard("", newImgElement, SET_LEFT_LABEL, SET_RIGHT_LABEL);
+            const card = makeImageCard("", newImgElement, {
+                content: materialIconElement("arrow_circle_left"),
+                className: "set-left",
+            }, {
+                content: materialIconElement("arrow_circle_right"),
+                className: "set-right",
+            });
             galleryContainer.appendChild(card);
         });
     },
